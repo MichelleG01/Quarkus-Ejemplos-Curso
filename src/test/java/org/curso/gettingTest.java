@@ -15,7 +15,7 @@ public class gettingTest {
           .when().get("/prueba")
           .then()
              .statusCode(200)
-             .body(is("Hello RESTEasy"));
+             .body(is("Hola Mundo"));
     }
 
 }
