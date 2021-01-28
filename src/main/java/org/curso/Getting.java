@@ -1,5 +1,8 @@
 package org.curso;
 
+import org.curso.restclient.WorldClock;
+import org.curso.restclient.WorldClockService;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
@@ -16,6 +19,11 @@ public class Getting {
     GettingService service;
 
     Logger logger = Logger.getLogger(Getting.class);
+
+    //inyectamos nuestro cliente rest en nuestro recurso
+    @Inject
+    @RestClient
+    WorldClockService worldClockService;
 
     @GET
     @Path("/mensaje")
@@ -39,5 +47,13 @@ public class Getting {
         System.out.println(beer.getName());
         logger.debug("Hello");
         return Response.ok().build();
+    }
+
+    //Consumimos el api de: http://worldclockapi.com/api/json/cet/now
+    @GET
+    @Path("/now")
+    @Produces(MediaType.APPLICATION_JSON)
+    public WorldClock getNow() {
+        return worldClockService.getNow();
     }
 }
