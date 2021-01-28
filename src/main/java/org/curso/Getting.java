@@ -1,6 +1,6 @@
 package org.curso;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -14,6 +14,8 @@ public class Getting {
 
     @Inject
     GettingService service;
+
+    Logger logger = Logger.getLogger(Getting.class);
 
     @GET
     @Path("/mensaje")
@@ -35,6 +37,7 @@ public class Getting {
     public Response createBeer(@Valid Beer beer) {
         System.out.println(beer);
         System.out.println(beer.getName());
+        logger.debug("Hello");
         return Response.ok().build();
     }
 }
