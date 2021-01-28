@@ -12,10 +12,10 @@ public class GettingTest {
     @Test
     public void testHelloEndpoint() {
         given()
-          .when().get("/prueba")
+          .when().get("/prueba/mensaje")
           .then()
              .statusCode(200)
-             .body(is("Hola Mundo"));
+             .body(is("HOLA MUNDO"));
     }
 
 }
