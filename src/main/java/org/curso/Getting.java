@@ -8,6 +8,7 @@ import org.jboss.logging.Logger;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.LocalDate;
@@ -55,5 +56,17 @@ public class Getting {
     @Produces(MediaType.APPLICATION_JSON)
     public WorldClock getNow() {
         return worldClockService.getNow();
+    }
+
+    //Creando un cliente rest pero mas abajo nivel usando javax.ws sin el microprofile
+    @GET
+    @Path("/nowPuro")
+    @Produces(MediaType.APPLICATION_JSON)
+    public WorldClock getNowPuro() {
+        //Generamos un cliente, lo hacemos programaticamente no por una interface
+        return ClientBuilder.newClient().target("http://worldclockapi.com")
+        .path("/api/json/cet/now")
+        .request()
+        .get(WorldClock.class);
     }
 }
