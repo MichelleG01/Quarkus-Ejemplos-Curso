@@ -1,5 +1,6 @@
 package org.curso.cloud;
 
+import io.opentracing.Tracer;
 import org.curso.restclient.WorldClock;
 import org.curso.restclient.WorldClockService;
 import org.eclipse.microprofile.metrics.MetricUnits;
@@ -23,6 +24,10 @@ public class MetricasResource {
     @RestClient
     WorldClockService worldClockService;
 
+    //para añadir información customizada del traceado que queramos realizar
+    @Inject
+    Tracer tracer;
+
     @GET
     @Path("/now")
     @Produces(MediaType.APPLICATION_JSON)
@@ -30,6 +35,7 @@ public class MetricasResource {
     @Timed(name = "CheckTimeGetNow", description = "Time to get current time", unit = MetricUnits.MILLISECONDS)
     @Counted(name = "Name of get time", description = "Numbers of calls") //cuantas veces se ha llamado
     public WorldClock getNow() {
+        tracer.activeSpan().setBaggageItem("time", "now");
         return worldClockService.getNow();
     }
     //Para ver el resultado de la metrica, despues de hacer la peticion a http://localhost:8080/metrica/now
